@@ -12,7 +12,6 @@ import ChangePassword from '../ChangePassword/ChangePassword'
 class App extends Component {
   constructor () {
     super()
-
     this.state = {
       user: null,
       msgAlerts: []
@@ -28,6 +27,7 @@ class App extends Component {
   }
 
   render () {
+    console.log(this.state.user)
     const { msgAlerts, user } = this.state
 
     return (
