@@ -44,13 +44,11 @@ class BucketIndex extends Component {
     } else if (this.state.buckets.length === 0) {
       jsx = (
         <div>
-          <p><Link to="/bucketCreate">Create a new item for your bucket list...</Link></p>
           <p>No buckets, please add one.</p>
         </div>
       )
     // if you have buckets
     } else {
-      console.log(this.props.user.token)
       jsx = (
         <div className="accordian-border-bottom">
           {this.state.buckets.map(bucket => (
@@ -65,7 +63,6 @@ class BucketIndex extends Component {
                       <div>{bucket.description}</div>
                       <div className='d-flex flex-row-reverse'>
                         <span className='actions'><Link to={`/buckets/edit/${bucket._id}`}>[Edit]</Link></span>
-                        <span className='actions'><Link to='#'>[Mark Complete]&nbsp;</Link></span>
                         <span className='actions'><Link to={`/buckets/delete/${bucket._id}`}>[Delete]</Link></span>
                       </div>
                     </div>
@@ -81,6 +78,7 @@ class BucketIndex extends Component {
     return (
       <div>
         <h2>Buckets Page</h2>
+        <p><Link to="/bucketCreate">Create a new item for your bucket list...</Link></p>
         {jsx}
       </div>
     )

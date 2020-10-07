@@ -6,7 +6,6 @@ import apiUrl from './../../apiConfig'
 
 class DeleteItem extends Component {
   componentDidMount () {
-    console.log(this.props.params)
     const { msgAlert, history } = this.props
 
     axios({
