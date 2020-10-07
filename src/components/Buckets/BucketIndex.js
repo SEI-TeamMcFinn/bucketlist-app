@@ -5,6 +5,7 @@ import apiUrl from './../../apiConfig'
 import { Card, Accordion, Button, Row, Col } from 'react-bootstrap'
 import trash from './../../public/images/trash-outline.svg'
 import edit from './../../public/images/create-outline.svg'
+import complete from './../../public/images/checkbox-outline.svg'
 
 class BucketIndex extends Component {
   constructor () {
@@ -57,7 +58,7 @@ class BucketIndex extends Component {
             <Accordion key={bucket._id} className="accordian-border-bottom">
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey={bucket._id}>
-                  <span className={bucket.completed ? 'completed' : ''}>{bucket.title}</span>
+                  <span className={bucket.completed ? 'completed' : ''}></span>{bucket.title}
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey={bucket._id}>
                   <Card.Body>
@@ -66,6 +67,7 @@ class BucketIndex extends Component {
                       <div className='d-flex flex-row-reverse'>
                         <span className='actions'><Link to={`/buckets/delete/${bucket._id}`}><img className='icons-delete' src={trash} alt='Delete' /></Link></span>
                         <span className='actions'><Link to={`/buckets/edit/${bucket._id}`}><img className='icons-edit' src={edit} alt='Edit' /></Link></span>
+                        <span className='actions'><Link to={/buckets/}><img className='icons-complete' src={complete} alt='Mark Complete' /></Link></span>
                       </div>
                     </div>
                   </Card.Body>
