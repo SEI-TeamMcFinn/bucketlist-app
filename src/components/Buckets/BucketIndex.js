@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import axios from 'axios'
 import apiUrl from './../../apiConfig'
-import { Card, Accordion } from 'react-bootstrap'
+import { Card, Accordion, Button } from 'react-bootstrap'
+import trash from './../../public/images/trash-outline.svg'
+import edit from './../../public/images/create-outline.svg'
 
 class BucketIndex extends Component {
   constructor () {
@@ -62,8 +64,8 @@ class BucketIndex extends Component {
                     <div>
                       <div>{bucket.description}</div>
                       <div className='d-flex flex-row-reverse'>
-                        <span className='actions'><Link to={`/buckets/edit/${bucket._id}`}>[Edit]</Link></span>
-                        <span className='actions'><Link to={`/buckets/delete/${bucket._id}`}>[Delete]</Link></span>
+                        <span className='actions'><Link to={`/buckets/delete/${bucket._id}`}><img className='icons-delete' src={trash} alt='Delete' /></Link></span>
+                        <span className='actions'><Link to={`/buckets/edit/${bucket._id}`}><img className='icons-edit' src={edit} alt='Edit' /></Link></span>
                       </div>
                     </div>
                   </Card.Body>
@@ -77,8 +79,20 @@ class BucketIndex extends Component {
     // returning the list with the jsx in it
     return (
       <div>
-        <h2>Buckets Page</h2>
-        <p><Link to="/bucketCreate">Create a new item for your bucket list...</Link></p>
+        <div className="row">
+          <div className="col-6">
+            <h2>Buckets Page</h2>
+          </div>
+          <div className="col-6 d-flex flex-row-reverse align-items-center">
+            <p>
+              <Link to="/bucketCreate">
+                <Button variant="primary" type="submit">
+                  Create New Item...
+                </Button>
+              </Link>
+            </p>
+          </div>
+        </div>
         {jsx}
       </div>
     )
