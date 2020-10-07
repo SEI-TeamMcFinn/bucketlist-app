@@ -55,7 +55,7 @@ class EditBucketItem extends Component {
   }
 
   render () {
-    console.log(this.props)
+    console.log('Props: ', this.props)
     if (this.state.createdBucketItemId) {
       return <Redirect to={'/buckets/'} />
     }
