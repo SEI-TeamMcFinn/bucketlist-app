@@ -11,3 +11,25 @@
 .actions {
   margin: 5px;
 }
+
+.icons-delete {
+  padding: 5px;
+  border-radius: 30px;
+  height: 40px;
+  width: 40px
+}
+
+.icons-delete:hover {
+  filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+}
+
+.icons-edit {
+  padding: 5px;
+  border-radius: 30px;
+  height: 40px;
+  width: 40px
+}
+
+.icons-edit:hover {
+  filter: invert(49%) sepia(63%) saturate(1315%) hue-rotate(75deg) brightness(96%) contrast(87%);
+}
