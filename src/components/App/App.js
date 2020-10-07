@@ -8,6 +8,10 @@ import SignUp from '../SignUp/SignUp'
 import SignIn from '../SignIn/SignIn'
 import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
+import BucketIndex from './../Buckets/BucketIndex'
+import BucketCreate from './../Buckets/BucketCreate'
+import BucketDelete from './../Buckets/BucketDelete'
+import BucketEdit from './../Buckets/BucketEdit'
 
 class App extends Component {
   constructor () {
@@ -53,6 +57,18 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute exact user={user} path='/buckets' render={() => (
+            <BucketIndex msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute exact user={user} path='/buckets/edit/:id' render={() => (
+            <BucketEdit msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute exact user={user} path='/buckets/delete/:id' render={() => (
+            <BucketDelete msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/bucketCreate' render={() => (
+            <BucketCreate msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
       </Fragment>
