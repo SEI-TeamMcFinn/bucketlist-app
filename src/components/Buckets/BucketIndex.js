@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import axios from 'axios'
 import apiUrl from './../../apiConfig'
-import { Card, Accordion, Button } from 'react-bootstrap'
+import { Card, Accordion, Button, Row, Col } from 'react-bootstrap'
 import trash from './../../public/images/trash-outline.svg'
 import edit from './../../public/images/create-outline.svg'
 
@@ -52,17 +52,17 @@ class BucketIndex extends Component {
     // if you have buckets
     } else {
       jsx = (
-        <div className="accordian-border-bottom">
+        <div className="col-sm-10 col-md-8 mx-auto">
           {this.state.buckets.map(bucket => (
-            <Accordion key={bucket._id}>
+            <Accordion key={bucket._id} className="accordian-border-bottom">
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey={bucket._id}>
-                  {bucket.title}
+                  <span className={bucket.completed ? 'completed' : ''}>{bucket.title}</span>
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey={bucket._id}>
                   <Card.Body>
                     <div>
-                      <div>{bucket.description}</div>
+                      <div className={bucket.completed ? 'completed' : ''}>{bucket.description}</div>
                       <div className='d-flex flex-row-reverse'>
                         <span className='actions'><Link to={`/buckets/delete/${bucket._id}`}><img className='icons-delete' src={trash} alt='Delete' /></Link></span>
                         <span className='actions'><Link to={`/buckets/edit/${bucket._id}`}><img className='icons-edit' src={edit} alt='Edit' /></Link></span>
@@ -79,20 +79,20 @@ class BucketIndex extends Component {
     // returning the list with the jsx in it
     return (
       <div>
-        <div className="row">
-          <div className="col-6">
-            <h2>Buckets Page</h2>
-          </div>
-          <div className="col-6 d-flex flex-row-reverse align-items-center">
-            <p>
-              <Link to="/bucketCreate">
-                <Button variant="primary" type="submit">
-                  Create New Item...
-                </Button>
-              </Link>
-            </p>
-          </div>
-        </div>
+        {/* <div className="col-sm-10 col-md-8 mx-auto mt-5"> */}
+        {/* <Container> */}
+        <Row className="col-sm-10 col-md-8 mx-auto mt-5">
+          <Col>
+            <h3>Buckets Page</h3>
+          </Col>
+          <Col className="d-flex flex-row-reverse">
+            <Link to="/bucketCreate">
+              <Button variant="primary" type="submit">Create New Item...</Button>
+            </Link>
+          </Col>
+        </Row>
+        {/* </Container> */}
+        {/* </div> */}
         {jsx}
       </div>
     )
