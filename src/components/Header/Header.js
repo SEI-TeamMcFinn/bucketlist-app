@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { Nav, Navbar } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import bucket from './../../public/images/bucket.png'
 
 const authenticatedOptions = (
@@ -24,8 +25,8 @@ const alwaysOptions = (
 
 const Header = ({ user }) => (
   <Navbar bg="primary" variant="dark" expand="md">
-    <Navbar.Brand href="#">
-      <img src={bucket} width="10%" height="10%" />
+    <Navbar.Brand>
+      <Link to="/"><img src={bucket} width="10%" height="10%" /><span className="navbar-text mr-2">&nbsp;List</span></Link>
     </Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
