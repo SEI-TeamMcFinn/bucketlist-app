@@ -65,7 +65,6 @@ class EditBucketItem extends Component {
     })
       // succesful return of data from the API call
       .then(res => this.setState({ didEdit: true }))
-      // catch and console.log any errors
       .catch(console.error)
       // make a post request to API with book data
   }
@@ -99,7 +98,7 @@ class EditBucketItem extends Component {
               <Form.Control type="checkbox" name="completed" value={completed} onChange={this.handleComplete} checked={completed} />
             </Form.Group>
 
-            <Button variant="primary" type="submit">Edit Bucket List Item</Button>
+            <Button variant="outline-primary" block type="submit">Edit Bucket List Item</Button>
 
           </Form>
 
