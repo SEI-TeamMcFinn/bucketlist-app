@@ -4,6 +4,7 @@ import axios from 'axios'
 import apiUrl from './../../apiConfig'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import messages from './../AutoDismissAlert/messages'
 
 class CreateBucketItem extends Component {
   constructor (props) {
@@ -36,6 +37,7 @@ class CreateBucketItem extends Component {
   }
 
   handleSubmit = (event) => {
+    const { msgAlert } = this.props
     // preventing the default action of the SUBMIT
     event.preventDefault()
     const bucketItem = this.state.bucketItem
@@ -49,7 +51,13 @@ class CreateBucketItem extends Component {
     })
       // succesful return of data from the API call
       .then(res => this.setState({ createdBucketItemId: res.data.bucket._id }))
-      // catch and console.log any errors
+      .then(() => {
+        msgAlert({
+          heading: 'Create succesfull',
+          message: messages.createSuccess,
+          variant: 'success'
+        })
+      })
       .catch(console.error)
       // make a post request to API with book data
   }
@@ -77,7 +85,7 @@ class CreateBucketItem extends Component {
               <Form.Label>Description</Form.Label>
               <Form.Control required type="text" name="description" value={description} placeholder="Description" onChange={this.handleChange} />
             </Form.Group>
-            <Button variant="primary" type="submit">Create Bucket List Item</Button>
+            <Button variant="outline-primary" block type="submit">Create Bucket List Item</Button>
 
           </Form>
 
