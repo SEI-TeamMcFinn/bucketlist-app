@@ -1,6 +1,7 @@
 @import '~bootstrap/scss/bootstrap';
 
-.accordian-border-bottom {
+
+.accordian-border-bottom:last-of-type {
   border-bottom: 1px solid #d8d8d8;
 }
 
@@ -32,4 +33,8 @@
 
 .icons-edit:hover {
   filter: invert(49%) sepia(63%) saturate(1315%) hue-rotate(75deg) brightness(96%) contrast(87%);
+}
+
+.completed {
+  text-decoration: line-through #ff0000;
 }
