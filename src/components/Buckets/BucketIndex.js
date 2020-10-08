@@ -7,6 +7,7 @@ import trash from './../../public/images/trash-outline.svg'
 import edit from './../../public/images/create-outline.svg'
 import complete from './../../public/images/checkbox-outline.svg'
 import Clock from 'react-clock'
+import messages from './../AutoDismissAlert/messages'
 
 class BucketIndex extends Component {
   constructor () {
@@ -15,8 +16,12 @@ class BucketIndex extends Component {
     this.state = {
       buckets: [],
       isLoaded: false,
-      didDelete: false
+      didDelete: false,
+      didComplete: false
     }
+
+    this.onCompleted = this.onCompleted.bind(this)
+    this.onDelete = this.onDelete.bind(this)
   }
 
   componentDidMount () {
@@ -35,6 +40,59 @@ class BucketIndex extends Component {
       })
       // catching any errors
       .catch(console.error)
+  }
+
+  onCompleted (event) {
+    console.log(event.target.id)
+    // Set buckets = the value of this.state.buckets (ALL BUCKETS)
+    const buckets = this.state.buckets
+    // Find the specific bucket that was clicked on
+    const bucket = buckets.find(el => el._id === event.target.id)
+    // Find the index within the buckets array of the bucket that was clicked on
+    const bucketIndex = buckets.indexOf(bucket)
+    // create a copy of the specific bucket so that we can use it to change state
+    const itemCopy = Object.assign({}, bucket)
+    // toggling the state of complteed within the copy
+    itemCopy.completed = !bucket.completed
+    // updating the state with our new copy
+    axios({
+      url: `${apiUrl}/buckets/${event.target.id}`,
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${this.props.user.token}` },
+      data: {
+        bucket: itemCopy
+      }
+    })
+      // Use the index to set the bucket that was clicked on to our copy
+      .then(this.setState(buckets[bucketIndex] = itemCopy))
+      // .then(this.forceUpdate())
+  }
+
+  onDelete (event) {
+    const { msgAlert } = this.props
+
+    // Set buckets = the value of this.state.buckets (ALL BUCKETS)
+    const buckets = this.state.buckets
+    // Find the specific bucket that was clicked on
+    const bucket = buckets.find(el => el._id === event.target.id)
+    // Find the index within the buckets array of the bucket that was clicked on
+    const bucketIndex = buckets.indexOf(bucket)
+    // updating the state with our new copy
+    axios({
+      url: `${apiUrl}/buckets/${event.target.id}`,
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${this.props.user.token}` }
+    })
+      .then(() => {
+        msgAlert({
+          heading: 'Delete succesfull',
+          message: messages.deleteSuccess,
+          variant: 'success'
+        })
+      })
+      // Use the index to set the bucket that was clicked on to our copy
+      .then(this.setState(buckets.splice(bucketIndex, 1)))
+      // .then(this.forceUpdate())
   }
 
   render () {
@@ -69,9 +127,9 @@ class BucketIndex extends Component {
                     <div>
                       <div className={bucket.completed ? 'completed' : ''}>{bucket.description}</div>
                       <div className='d-flex flex-row-reverse'>
-                        <span className='actions'><Link to={`/buckets/delete/${bucket._id}`}><img className='icons-delete' src={trash} alt='Delete' /></Link></span>
+                        <span className='actions pointer' onClick={this.onDelete}><img className='icons-delete' id={bucket._id} src={trash} alt='Delete Item' /></span>
                         <span className='actions'><Link to={`/buckets/edit/${bucket._id}`}><img className='icons-edit' src={edit} alt='Edit' /></Link></span>
-                        <span className='actions'><Link to={/buckets/}><img className='icons-complete' src={complete} alt='Mark Complete' /></Link></span>
+                        <span className='actions pointer' onClick={this.onCompleted}><img className='icons-complete' id={bucket._id} src={complete} alt='Mark Complete' /></span>
                       </div>
                     </div>
                   </Card.Body>
