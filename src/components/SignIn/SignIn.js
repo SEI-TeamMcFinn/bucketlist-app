@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 
 import { signIn } from '../../api/auth'
 import messages from '../AutoDismissAlert/messages'
@@ -27,7 +27,6 @@ class SignIn extends Component {
     const { msgAlert, history, setUser } = this.props
 
     signIn(this.state)
-      // .then(res => console.log('onSignIn: ', res.data.user))
       .then(res => setUser(res.data.user))
       .then(() => msgAlert({
         heading: 'Sign In Success',
@@ -53,34 +52,20 @@ class SignIn extends Component {
         <div className="col-sm-10 col-md-8 mx-auto mt-5">
           <h3>Sign In</h3>
           <Form onSubmit={this.onSignIn}>
+
             <Form.Group controlId="email">
               <Form.Label>Email address</Form.Label>
-              <Form.Control
-                required
-                type="email"
-                name="email"
-                value={email}
-                placeholder="Enter email"
-                onChange={this.handleChange}
-              />
+              <Form.Control required type="email" name="email" value={email} placeholder="Enter email" onChange={this.handleChange} />
             </Form.Group>
+
             <Form.Group controlId="password">
               <Form.Label>Password</Form.Label>
-              <Form.Control
-                required
-                name="password"
-                value={password}
-                type="password"
-                placeholder="Password"
-                onChange={this.handleChange}
-              />
+              <Form.Control required name="password" value={password} type="password" placeholder="Password" onChange={this.handleChange} />
             </Form.Group>
-            <Button
-              variant="primary"
-              type="submit"
-            >
-              Submit
-            </Button>
+
+            <Button variant="outline-primary" block type="submit">Sign In</Button>
+
+            <span className="d-flex flex-row-reverse"><Link to="/sign-up">Register new user...</Link></span>
           </Form>
         </div>
       </div>

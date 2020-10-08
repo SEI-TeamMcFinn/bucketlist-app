@@ -4,6 +4,7 @@ import axios from 'axios'
 import apiUrl from './../../apiConfig'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import messages from './../AutoDismissAlert/messages'
 
 class EditBucketItem extends Component {
   constructor (props) {
@@ -52,6 +53,7 @@ class EditBucketItem extends Component {
   }
 
   handleSubmit = (event) => {
+    const { msgAlert } = this.props
     // preventing the default action of the SUBMIT
     event.preventDefault()
     const bucketItem = this.state.bucketItem
@@ -65,9 +67,21 @@ class EditBucketItem extends Component {
     })
       // succesful return of data from the API call
       .then(res => this.setState({ didEdit: true }))
-      // catch and console.log any errors
-      .catch(console.error)
-      // make a post request to API with book data
+      .then(() => {
+        msgAlert({
+          heading: 'Edit succesfull',
+          message: messages.success,
+          variant: 'success'
+        })
+      })
+      // .then(this.forceUpdate())
+      .catch(() => {
+        msgAlert({
+          heading: 'Failed to Edit',
+          message: messages.failure,
+          variant: 'danger'
+        })
+      })
   }
 
   render () {
@@ -75,7 +89,7 @@ class EditBucketItem extends Component {
       return <Redirect to={'/buckets/'} />
     }
 
-    const { title, description, completed } = this.state.bucketItem
+    const { title, description } = this.state.bucketItem
 
     return (
       <div className="row">
@@ -94,12 +108,7 @@ class EditBucketItem extends Component {
               <Form.Control required type="text" name="description" value={description} placeholder="Description" onChange={this.handleChange} />
             </Form.Group>
 
-            <Form.Group controlId="description">
-              <Form.Label>Complete</Form.Label>
-              <Form.Control type="checkbox" name="completed" value={completed} onChange={this.handleComplete} checked={completed} />
-            </Form.Group>
-
-            <Button variant="primary" type="submit">Edit Bucket List Item</Button>
+            <Button variant="outline-primary" block type="submit">Edit Bucket List Item</Button>
 
           </Form>
 
