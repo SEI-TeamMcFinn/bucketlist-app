@@ -1,6 +1,11 @@
+$theme-colors: (
+  "primary": #52C255,
+  "custom": #ededed
+  );
+
 @import '~bootstrap/scss/bootstrap';
 
-$theme-colors: ("primary": #ff0000);
+
 
 .accordian-border-bottom:last-of-type {
   border-bottom: 1px solid #d8d8d8;
