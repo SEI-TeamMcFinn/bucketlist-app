@@ -58,8 +58,13 @@ class CreateBucketItem extends Component {
           variant: 'success'
         })
       })
-      .catch(console.error)
-      // make a post request to API with book data
+      .catch(() => {
+        msgAlert({
+          heading: 'Create Failed',
+          message: messages.failure,
+          variant: 'danger'
+        })
+      })
   }
 
   render () {

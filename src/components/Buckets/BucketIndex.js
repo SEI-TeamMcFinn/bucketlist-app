@@ -25,6 +25,7 @@ class BucketIndex extends Component {
   }
 
   componentDidMount () {
+    const { msgAlert } = this.props
     // making the API call
     axios.get(apiUrl + '/buckets', {
       headers: {
@@ -39,10 +40,17 @@ class BucketIndex extends Component {
         })
       })
       // catching any errors
-      .catch(console.error)
+      .catch(() => {
+        msgAlert({
+          heading: 'Failed to Retrieve Bucket List',
+          message: messages.failure,
+          variant: 'danger'
+        })
+      })
   }
 
   onCompleted (event) {
+    const { msgAlert } = this.props
     console.log(event.target.id)
     // Set buckets = the value of this.state.buckets (ALL BUCKETS)
     const buckets = this.state.buckets
@@ -64,8 +72,21 @@ class BucketIndex extends Component {
       }
     })
       // Use the index to set the bucket that was clicked on to our copy
-      .then(this.setState(buckets[bucketIndex] = itemCopy))
-      // .then(this.forceUpdate())
+      .then(() => {
+        this.setState(buckets[bucketIndex] = itemCopy)
+        msgAlert({
+          heading: 'Event Completed',
+          message: messages.success,
+          variant: 'success'
+        })
+      })
+      .catch(() => {
+        msgAlert({
+          heading: 'Failed to Mark Event as Complete',
+          message: messages.failure,
+          variant: 'danger'
+        })
+      })
   }
 
   onDelete (event) {
@@ -84,15 +105,22 @@ class BucketIndex extends Component {
       headers: { 'Authorization': `Bearer ${this.props.user.token}` }
     })
       .then(() => {
+        // Use the index to set the bucket that was clicked on to our copy
+        this.setState(buckets.splice(bucketIndex, 1))
         msgAlert({
           heading: 'Delete succesfull',
-          message: messages.deleteSuccess,
+          message: messages.success,
           variant: 'success'
         })
       })
-      // Use the index to set the bucket that was clicked on to our copy
-      .then(this.setState(buckets.splice(bucketIndex, 1)))
       // .then(this.forceUpdate())
+      .catch(() => {
+        msgAlert({
+          heading: 'Failed to Delete',
+          message: messages.failure,
+          variant: 'danger'
+        })
+      })
   }
 
   render () {
