@@ -15,19 +15,14 @@ class BucketIndex extends Component {
     // setting state to an empty array and not loaded
     this.state = {
       buckets: [],
-      isLoaded: false,
-      didDelete: false,
-      didComplete: false
+      isLoaded: false
     }
-
-    this.onCompleted = this.onCompleted.bind(this)
-    this.onDelete = this.onDelete.bind(this)
   }
 
   componentDidMount () {
     const { msgAlert } = this.props
     // making the API call
-    axios.get(apiUrl + '/buckets', {
+    axios.get(apiUrl + '/buckets/public', {
       headers: {
         'Authorization': `Bearer ${this.props.user.token}`
       }
@@ -42,81 +37,7 @@ class BucketIndex extends Component {
       // catching any errors
       .catch(() => {
         msgAlert({
-          heading: 'Failed to Retrieve Bucket List',
-          message: messages.failure,
-          variant: 'danger'
-        })
-      })
-  }
-
-  onCompleted (event) {
-    const { msgAlert } = this.props
-    console.log(event.target.id)
-    // Set buckets = the value of this.state.buckets (ALL BUCKETS)
-    const buckets = this.state.buckets
-    // Find the specific bucket that was clicked on
-    const bucket = buckets.find(el => el._id === event.target.id)
-    // Find the index within the buckets array of the bucket that was clicked on
-    const bucketIndex = buckets.indexOf(bucket)
-    // create a copy of the specific bucket so that we can use it to change state
-    const itemCopy = Object.assign({}, bucket)
-    // toggling the state of complteed within the copy
-    itemCopy.completed = !bucket.completed
-    // updating the state with our new copy
-    axios({
-      url: `${apiUrl}/buckets/${event.target.id}`,
-      method: 'PATCH',
-      headers: { 'Authorization': `Bearer ${this.props.user.token}` },
-      data: {
-        bucket: itemCopy
-      }
-    })
-      // Use the index to set the bucket that was clicked on to our copy
-      .then(() => {
-        this.setState(buckets[bucketIndex] = itemCopy)
-        msgAlert({
-          heading: 'Event Completed',
-          message: messages.success,
-          variant: 'success'
-        })
-      })
-      .catch(() => {
-        msgAlert({
-          heading: 'Failed to Mark Event as Complete',
-          message: messages.failure,
-          variant: 'danger'
-        })
-      })
-  }
-
-  onDelete (event) {
-    const { msgAlert } = this.props
-
-    // Set buckets = the value of this.state.buckets (ALL BUCKETS)
-    const buckets = this.state.buckets
-    // Find the specific bucket that was clicked on
-    const bucket = buckets.find(el => el._id === event.target.id)
-    // Find the index within the buckets array of the bucket that was clicked on
-    const bucketIndex = buckets.indexOf(bucket)
-    // updating the state with our new copy
-    axios({
-      url: `${apiUrl}/buckets/${event.target.id}`,
-      method: 'DELETE',
-      headers: { 'Authorization': `Bearer ${this.props.user.token}` }
-    })
-      .then(() => {
-        // Use the index to set the bucket that was clicked on to our copy
-        this.setState(buckets.splice(bucketIndex, 1))
-        msgAlert({
-          heading: 'Delete succesfull',
-          message: messages.success,
-          variant: 'success'
-        })
-      })
-      // .then(this.forceUpdate())
-      .catch(() => {
-        msgAlert({
-          heading: 'Failed to Delete',
+          heading: 'Failed to Retrieve Public Bucket List',
           message: messages.failure,
           variant: 'danger'
         })
@@ -136,7 +57,7 @@ class BucketIndex extends Component {
     } else if (this.state.buckets.length === 0) {
       jsx = (
         <div className="col-sm-10 col-md-8 mx-auto">
-          <p>Your Bucket list is empty...  tic toc...</p>
+          <p>The Public Bucket list is empty.</p>
         </div>
       )
     // if you have buckets
