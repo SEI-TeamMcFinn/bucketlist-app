@@ -4,6 +4,7 @@ import axios from 'axios'
 import apiUrl from './../../apiConfig'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import messages from './../AutoDismissAlert/messages'
 
 class EditBucketItem extends Component {
   constructor (props) {
@@ -52,6 +53,7 @@ class EditBucketItem extends Component {
   }
 
   handleSubmit = (event) => {
+    const { msgAlert } = this.props
     // preventing the default action of the SUBMIT
     event.preventDefault()
     const bucketItem = this.state.bucketItem
@@ -65,7 +67,21 @@ class EditBucketItem extends Component {
     })
       // succesful return of data from the API call
       .then(res => this.setState({ didEdit: true }))
-      .catch(console.error)
+      .then(() => {
+        msgAlert({
+          heading: 'Edit succesfull',
+          message: messages.success,
+          variant: 'success'
+        })
+      })
+      // .then(this.forceUpdate())
+      .catch(() => {
+        msgAlert({
+          heading: 'Failed to Edit',
+          message: messages.failure,
+          variant: 'danger'
+        })
+      })
   }
 
   render () {
