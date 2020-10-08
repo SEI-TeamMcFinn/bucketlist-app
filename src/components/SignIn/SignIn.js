@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 
 import { signIn } from '../../api/auth'
 import messages from '../AutoDismissAlert/messages'
@@ -64,6 +64,8 @@ class SignIn extends Component {
             </Form.Group>
 
             <Button variant="outline-primary" block type="submit">Sign In</Button>
+
+            <span className="d-flex flex-row-reverse"><Link to="/sign-up">Register new user...</Link></span>
           </Form>
         </div>
       </div>

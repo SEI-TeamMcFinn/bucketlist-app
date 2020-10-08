@@ -18,6 +18,14 @@ const unauthenticatedOptions = (
   </Fragment>
 )
 
+const linked = (
+  <span className="navbar-text mr-2"><Link to="/buckets"><img src={bucket} width="10%" height="10%" /></Link>&nbsp;List</span>
+)
+
+const notLinked = (
+  <span className="navbar-text mr-2"><img src={bucket} width="10%" height="10%" />&nbsp;List</span>
+)
+
 // const alwaysOptions = (
 //   <Fragment>
 //   </Fragment>
@@ -26,7 +34,7 @@ const unauthenticatedOptions = (
 const Header = ({ user }) => (
   <Navbar bg="primary" variant="dark" expand="md">
     <Navbar.Brand>
-      <Link to="/"><img src={bucket} width="10%" height="10%" /><span className="navbar-text mr-2">&nbsp;List</span></Link>
+      {user ? linked : notLinked}
     </Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
