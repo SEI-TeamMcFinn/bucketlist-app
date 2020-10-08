@@ -11,6 +11,7 @@ import ChangePassword from '../ChangePassword/ChangePassword'
 import BucketIndex from './../Buckets/BucketIndex'
 import BucketCreate from './../Buckets/BucketCreate'
 import BucketEdit from './../Buckets/BucketEdit'
+import BucketPublic from './../Buckets/BucketPublic'
 
 class App extends Component {
   constructor () {
@@ -65,8 +66,11 @@ class App extends Component {
           <AuthenticatedRoute exact user={user} path='/buckets/edit/:id' render={() => (
             <BucketEdit msgAlert={this.msgAlert} user={user} />
           )} />
-          <AuthenticatedRoute user={user} path='/bucketCreate' render={() => (
+          <AuthenticatedRoute user={user} path='/bucket/create' render={() => (
             <BucketCreate msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/buckets/public' render={() => (
+            <BucketPublic msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
       </Fragment>

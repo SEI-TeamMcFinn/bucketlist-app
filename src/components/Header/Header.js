@@ -19,7 +19,7 @@ const unauthenticatedOptions = (
 )
 
 const linked = (
-  <span className="navbar-text mr-2"><Link to="/buckets"><img src={bucket} width="10%" height="10%" /></Link>&nbsp;List</span>
+  <span className="navbar-text mr-2"><Link to="/buckets/public"><img src={bucket} width="10%" height="10%" /></Link>&nbsp;List</span>
 )
 
 const notLinked = (
