@@ -14,12 +14,12 @@ if !(test -z "$(git status --porcelain)"); then
   exit 1
 fi
 
-# Pushes master branch to origin remote, if unsuccessful exits script.
-if !(git push origin master); then
+# Pushes main branch to origin remote, if unsuccessful exits script.
+if !(git push origin main); then
   exit 1
 fi
 
-git checkout master
+git checkout main
 
 # Deletes gh-pages branch if there is one locally.
 # If there is no gh-pages branch suppress the output.
@@ -54,4 +54,4 @@ fi
 # Remove all production files that we don't want in development, do not delete
 # node_modules.
 git clean -x -d --force --exclude=node_modules
-git checkout master
+git checkout main
