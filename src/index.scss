@@ -1,5 +1,5 @@
 $theme-colors: (
-  "primary": #52C255,
+  "primary": #9b7653,
   "custom": #ededed
   );
 
@@ -14,6 +14,8 @@ $theme-colors: (
 .test {
   text-align: right;
 }
+
+.pointer {cursor: pointer;}
 
 .actions {
   margin: 5px;
