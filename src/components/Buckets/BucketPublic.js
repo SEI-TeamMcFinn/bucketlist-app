@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import apiUrl from './../../apiConfig'
 import { Card, Accordion } from 'react-bootstrap'
@@ -43,7 +43,7 @@ class BucketIndex extends Component {
   }
 
   render () {
-    let jsx
+    let jsx = []
     // while the buckets are loading
     if (this.state.isLoaded === false) {
       jsx = (
@@ -60,78 +60,65 @@ class BucketIndex extends Component {
       )
     // if you have buckets
     } else {
-      console.log(this.state.buckets)
-      jsx = (
-        <div className="col-sm-10 col-md-8 mx-auto">
-          {this.state.buckets.map(bucket => (
-            <Accordion key={bucket.owner} className="accordian-border-bottom">
+      const owners = []
+
+      this.state.buckets.forEach((bucket) => {
+        if (!owners.includes(bucket.owner._id)) {
+          owners.push(bucket.owner._id)
+        }
+      })
+      owners.map((owner, index) => {
+        const filteredBuckets = this.state.buckets.filter((buckets) => buckets.owner._id === owner)
+        jsx.push(
+          <div key={index}>
+            <Accordion className="accordian-border-bottom">
               <Card>
-                <Accordion.Toggle as={Card.Header} variant="link" eventKey={bucket.title}>
-                  <span className={bucket.completed ? 'completed' : ''}>{bucket.title}</span>
+                <Accordion.Toggle as={Card.Header} variant="link" eventKey={index}>
+                  <span className={filteredBuckets.completed ? 'completed' : ''}>{filteredBuckets[0].owner.firstName} {filteredBuckets[0].owner.lastName} -- Bucketlist</span>
                 </Accordion.Toggle>
-                <Accordion.Collapse eventKey={bucket.title}>
+                <Accordion.Collapse eventKey={index}>
                   <Card.Body>
-                    <Accordion key={bucket._id} className="accordian-border-bottom">
-                      <Card>
-                        <Accordion.Toggle as={Card.Header} variant="link" eventKey={bucket._id}>
-                          <span className={bucket.completed ? 'completed' : ''}>{bucket.title}</span>
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey={bucket._id}>
-                          <Card.Body>
-                            <div>
-                              <div className={bucket.completed ? 'completed' : ''}>{bucket.description}</div>
-                              <div className='d-flex flex-row-reverse'>
-                                <span className='actions pointer' onClick={this.onDelete}><img className='icons-delete' id={bucket._id} src={trash} alt='Delete Item' /></span>
+                    {filteredBuckets.map(bucket => (
+                      <Accordion key={bucket._id} className="accordian-border-bottom">
+                        <Card>
+                          <Accordion.Toggle as={Card.Header} variant="link" eventKey={bucket._id}>
+                            <span className={bucket.completed ? 'completed' : ''}>{bucket.title}</span>
+                          </Accordion.Toggle>
+                          <Accordion.Collapse eventKey={bucket._id}>
+                            <Card.Body>
+                              <div>
+                                <div className={bucket.completed ? 'completed' : ''}>{bucket.description}</div>
+                                <div className='d-flex flex-row-reverse'>
+                                  <span className='actions pointer' onClick={this.onDelete}><img className='icons-delete' id={bucket._id} src={trash} alt='Delete Item' /></span>
+                                </div>
                               </div>
-                            </div>
-                          </Card.Body>
-                        </Accordion.Collapse>
-                      </Card>
-                    </Accordion>
+                            </Card.Body>
+                          </Accordion.Collapse>
+                        </Card>
+                      </Accordion>
+                    ))}
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
             </Accordion>
-          ))}
-        </div>
-      )
+          </div>
+        )
+      })
     }
     // returning the list with the jsx in it
     return (
       <div className="row">
         <div className="col-sm-10 col-md-8 mx-auto mt-5">
           <span>
-            <h3>Buckets Page</h3>
-          </span>
-          <span className="d-flex flex-row-reverse">
-            <Link to="/bucket/create">Create New Item...</Link>
+            <h3>Public BucketList Page</h3>
           </span>
         </div>
-        {jsx}
+        <div className="col-sm-10 col-md-8 mx-auto">
+          {jsx}
+        </div>
       </div>
     )
   }
 }
-// <div className="col-sm-10 col-md-8 mx-auto">
-//   {this.state.buckets.map(bucket => (
-//     <Accordion key={bucket._id} className="accordian-border-bottom">
-//       <Card>
-//         <Accordion.Toggle as={Card.Header} variant="link" eventKey={bucket._id}>
-//           <span className={bucket.completed ? 'completed' : ''}>{bucket.title}</span>
-//         </Accordion.Toggle>
-//         <Accordion.Collapse eventKey={bucket._id}>
-//           <Card.Body>
-//             <div>
-//               <div className={bucket.completed ? 'completed' : ''}>{bucket.description}</div>
-//               <div className='d-flex flex-row-reverse'>
-//                 <span className='actions pointer' onClick={this.onDelete}><img className='icons-delete' id={bucket._id} src={trash} alt='Delete Item' /></span>
-//               </div>
-//             </div>
-//           </Card.Body>
-//         </Accordion.Collapse>
-//       </Card>
-//     </Accordion>
-//   ))}
-// </div>
 
 export default withRouter(BucketIndex)
