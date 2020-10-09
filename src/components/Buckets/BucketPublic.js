@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import apiUrl from './../../apiConfig'
 import { Card, Accordion } from 'react-bootstrap'
-import trash from './../../public/images/trash-outline.svg'
+import copy from './../../public/images/duplicate-outline.svg'
 // import Clock from 'react-clock'
 import messages from './../AutoDismissAlert/messages'
 
@@ -15,6 +15,8 @@ class BucketIndex extends Component {
       buckets: [],
       isLoaded: false
     }
+
+    this.onCopy = this.onCopy.bind(this)
   }
 
   componentDidMount () {
@@ -36,6 +38,44 @@ class BucketIndex extends Component {
       .catch(() => {
         msgAlert({
           heading: 'Failed to Retrieve Public Bucket List',
+          message: messages.failure,
+          variant: 'danger'
+        })
+      })
+  }
+
+  onCopy (event) {
+    const { msgAlert } = this.props
+    // Set buckets = the value of this.state.buckets (ALL BUCKETS)
+    const buckets = this.state.buckets
+    // Find the specific bucket that was clicked on
+    const bucket = buckets.find(el => el._id === event.target.id)
+    // create a copy of the specific bucket so that we can use it to change state
+    const itemCopy = {
+      title: bucket.title,
+      description: bucket.description
+    }
+    // toggling the state of complteed within the copy
+    // updating the state with our new copy
+    axios({
+      url: `${apiUrl}/buckets`,
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${this.props.user.token}` },
+      data: {
+        bucket: itemCopy
+      }
+    })
+      // Use the index to set the bucket that was clicked on to our copy
+      .then(() => {
+        msgAlert({
+          heading: 'Sucessfully Copied',
+          message: messages.success,
+          variant: 'success'
+        })
+      })
+      .catch(() => {
+        msgAlert({
+          heading: 'Failed to Copy',
           message: messages.failure,
           variant: 'danger'
         })
@@ -89,7 +129,7 @@ class BucketIndex extends Component {
                               <div>
                                 <div className={bucket.completed ? 'completed' : ''}>{bucket.description}</div>
                                 <div className='d-flex flex-row-reverse'>
-                                  <span className='actions pointer' onClick={this.onDelete}><img className='icons-delete' id={bucket._id} src={trash} alt='Delete Item' /></span>
+                                  <span className='actions pointer' onClick={this.onCopy}><img className='icons-copy' id={bucket._id} src={copy} alt='Copy to my Bucket List' /></span>
                                 </div>
                               </div>
                             </Card.Body>

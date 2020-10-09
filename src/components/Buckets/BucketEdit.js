@@ -30,12 +30,10 @@ class EditBucketItem extends Component {
         bucketItem: res.data.bucket,
         isLoaded: true
       }))
-      .then(() => console.log(this.state))
       .catch(console.error)
   }
 
   handlePrivacy = (event) => {
-    console.log(event.target)
     // get the value that the user typed in
     const userInput = event.target.value
     // Make a copy of the State
@@ -44,7 +42,6 @@ class EditBucketItem extends Component {
     itemCopy.privacy = userInput
     // updating the state with our new copy
     this.setState({ bucketItem: itemCopy })
-    // console.log(this.state.bucketItem.privacy)
   }
 
   handleChange = (event) => {
