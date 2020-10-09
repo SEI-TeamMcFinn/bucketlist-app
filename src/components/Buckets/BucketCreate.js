@@ -33,7 +33,6 @@ class CreateBucketItem extends Component {
     itemCopy.privacy = userInput
     // updating the state with our new copy
     this.setState({ bucketItem: itemCopy })
-    // console.log(this.state.bucketItem.privacy)
   }
 
   handleChange = (event) => {

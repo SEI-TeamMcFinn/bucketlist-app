@@ -51,7 +51,6 @@ class BucketIndex extends Component {
 
   onCompleted (event) {
     const { msgAlert } = this.props
-    console.log(event.target.id)
     // Set buckets = the value of this.state.buckets (ALL BUCKETS)
     const buckets = this.state.buckets
     // Find the specific bucket that was clicked on
@@ -136,7 +135,7 @@ class BucketIndex extends Component {
     } else if (this.state.buckets.length === 0) {
       jsx = (
         <div className="col-sm-10 col-md-8 mx-auto">
-          <p>Your Bucket list is empty...  tic toc...</p>
+          <p>Your Bucket list is empty...</p>
         </div>
       )
     // if you have buckets
