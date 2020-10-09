@@ -4,8 +4,6 @@ import axios from 'axios'
 import apiUrl from './../../apiConfig'
 import { Card, Accordion } from 'react-bootstrap'
 import trash from './../../public/images/trash-outline.svg'
-import edit from './../../public/images/create-outline.svg'
-import complete from './../../public/images/checkbox-outline.svg'
 // import Clock from 'react-clock'
 import messages from './../AutoDismissAlert/messages'
 
@@ -62,24 +60,34 @@ class BucketIndex extends Component {
       )
     // if you have buckets
     } else {
+      console.log(this.state.buckets)
       jsx = (
         <div className="col-sm-10 col-md-8 mx-auto">
           {this.state.buckets.map(bucket => (
-            <Accordion key={bucket._id} className="accordian-border-bottom">
+            <Accordion key={bucket.owner} className="accordian-border-bottom">
               <Card>
-                <Accordion.Toggle as={Card.Header} variant="link" eventKey={bucket._id}>
+                <Accordion.Toggle as={Card.Header} variant="link" eventKey={bucket.title}>
                   <span className={bucket.completed ? 'completed' : ''}>{bucket.title}</span>
                 </Accordion.Toggle>
-                <Accordion.Collapse eventKey={bucket._id}>
+                <Accordion.Collapse eventKey={bucket.title}>
                   <Card.Body>
-                    <div>
-                      <div className={bucket.completed ? 'completed' : ''}>{bucket.description}</div>
-                      <div className='d-flex flex-row-reverse'>
-                        <span className='actions pointer' onClick={this.onDelete}><img className='icons-delete' id={bucket._id} src={trash} alt='Delete Item' /></span>
-                        <span className='actions'><Link to={`/buckets/edit/${bucket._id}`}><img className='icons-edit' src={edit} alt='Edit' /></Link></span>
-                        <span className='actions pointer' onClick={this.onCompleted}><img className='icons-complete' id={bucket._id} src={complete} alt='Mark Complete' /></span>
-                      </div>
-                    </div>
+                    <Accordion key={bucket._id} className="accordian-border-bottom">
+                      <Card>
+                        <Accordion.Toggle as={Card.Header} variant="link" eventKey={bucket._id}>
+                          <span className={bucket.completed ? 'completed' : ''}>{bucket.title}</span>
+                        </Accordion.Toggle>
+                        <Accordion.Collapse eventKey={bucket._id}>
+                          <Card.Body>
+                            <div>
+                              <div className={bucket.completed ? 'completed' : ''}>{bucket.description}</div>
+                              <div className='d-flex flex-row-reverse'>
+                                <span className='actions pointer' onClick={this.onDelete}><img className='icons-delete' id={bucket._id} src={trash} alt='Delete Item' /></span>
+                              </div>
+                            </div>
+                          </Card.Body>
+                        </Accordion.Collapse>
+                      </Card>
+                    </Accordion>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
@@ -104,4 +112,26 @@ class BucketIndex extends Component {
     )
   }
 }
+// <div className="col-sm-10 col-md-8 mx-auto">
+//   {this.state.buckets.map(bucket => (
+//     <Accordion key={bucket._id} className="accordian-border-bottom">
+//       <Card>
+//         <Accordion.Toggle as={Card.Header} variant="link" eventKey={bucket._id}>
+//           <span className={bucket.completed ? 'completed' : ''}>{bucket.title}</span>
+//         </Accordion.Toggle>
+//         <Accordion.Collapse eventKey={bucket._id}>
+//           <Card.Body>
+//             <div>
+//               <div className={bucket.completed ? 'completed' : ''}>{bucket.description}</div>
+//               <div className='d-flex flex-row-reverse'>
+//                 <span className='actions pointer' onClick={this.onDelete}><img className='icons-delete' id={bucket._id} src={trash} alt='Delete Item' /></span>
+//               </div>
+//             </div>
+//           </Card.Body>
+//         </Accordion.Collapse>
+//       </Card>
+//     </Accordion>
+//   ))}
+// </div>
+
 export default withRouter(BucketIndex)
