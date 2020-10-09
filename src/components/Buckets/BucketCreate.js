@@ -4,6 +4,7 @@ import axios from 'axios'
 import apiUrl from './../../apiConfig'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+// import Dropdown from 'react-bootstrap/Dropdown'
 import messages from './../AutoDismissAlert/messages'
 
 class CreateBucketItem extends Component {
@@ -12,7 +13,8 @@ class CreateBucketItem extends Component {
     this.state = {
       bucketItem: {
         title: '',
-        description: ''
+        description: '',
+        privacy: true
       },
       createdBucketItemId: null
     }
@@ -21,6 +23,17 @@ class CreateBucketItem extends Component {
   // handleChange = event => this.setState({
   //   [event.target.name]: event.target.value
   // })
+
+  handlePrivacy = (event) => {
+    // get the value that the user typed in
+    const userInput = event.target.value
+    // Make a copy of the State
+    const itemCopy = Object.assign({}, this.state.bucketItem)
+    // updating the key in state with the new value the user typed in
+    itemCopy.privacy = userInput
+    // updating the state with our new copy
+    this.setState({ bucketItem: itemCopy })
+  }
 
   handleChange = (event) => {
     // get the value that the user typed in
@@ -82,7 +95,7 @@ class CreateBucketItem extends Component {
 
           <Form onSubmit={this.handleSubmit}>
             <Form.Group controlId="title">
-              <Form.Label>Description</Form.Label>
+              <Form.Label>Title</Form.Label>
               <Form.Control required type="text" name="title" value={title} placeholder="Title" onChange={this.handleChange} />
             </Form.Group>
 
@@ -90,8 +103,20 @@ class CreateBucketItem extends Component {
               <Form.Label>Description</Form.Label>
               <Form.Control required type="text" name="description" value={description} placeholder="Description" onChange={this.handleChange} />
             </Form.Group>
-            <Button variant="outline-primary" block type="submit">Create Bucket List Item</Button>
 
+            <Form.Group controlId="privacy">
+              <Form.Label>Select who can view your Goal</Form.Label>
+              <Form.Control
+                as="select"
+                className="mr-sm-2"
+                defaultValue={true}
+                onChange={this.handlePrivacy}
+              >
+                <option value={true}>Private</option>
+                <option value={false}>Public</option>
+              </Form.Control>
+            </Form.Group>
+            <Button variant="outline-primary" block type="submit">Create Bucket List Item</Button>
           </Form>
 
         </div>

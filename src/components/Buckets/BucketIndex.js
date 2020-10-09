@@ -6,7 +6,7 @@ import { Card, Accordion } from 'react-bootstrap'
 import trash from './../../public/images/trash-outline.svg'
 import edit from './../../public/images/create-outline.svg'
 import complete from './../../public/images/checkbox-outline.svg'
-import Clock from 'react-clock'
+// import Clock from 'react-clock'
 import messages from './../AutoDismissAlert/messages'
 
 class BucketIndex extends Component {
@@ -51,7 +51,6 @@ class BucketIndex extends Component {
 
   onCompleted (event) {
     const { msgAlert } = this.props
-    console.log(event.target.id)
     // Set buckets = the value of this.state.buckets (ALL BUCKETS)
     const buckets = this.state.buckets
     // Find the specific bucket that was clicked on
@@ -136,8 +135,7 @@ class BucketIndex extends Component {
     } else if (this.state.buckets.length === 0) {
       jsx = (
         <div className="col-sm-10 col-md-8 mx-auto">
-          <p>Your Bucket list is empty...  tic toc...</p>
-          <Clock />
+          <p>Your Bucket list is empty...</p>
         </div>
       )
     // if you have buckets
@@ -176,7 +174,7 @@ class BucketIndex extends Component {
             <h3>Buckets Page</h3>
           </span>
           <span className="d-flex flex-row-reverse">
-            <Link to="/bucketCreate">Create New Item...</Link>
+            <Link to="/bucket/create">Create New Item...</Link>
           </span>
         </div>
         {jsx}
