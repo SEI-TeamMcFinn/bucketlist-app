@@ -8,11 +8,14 @@ import SignUp from '../SignUp/SignUp'
 import SignIn from '../SignIn/SignIn'
 import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
+import BucketIndex from './../Buckets/BucketIndex'
+import BucketCreate from './../Buckets/BucketCreate'
+import BucketEdit from './../Buckets/BucketEdit'
+import BucketPublic from './../Buckets/BucketPublic'
 
 class App extends Component {
   constructor () {
     super()
-
     this.state = {
       user: null,
       msgAlerts: []
@@ -42,6 +45,9 @@ class App extends Component {
           />
         ))}
         <main className="container">
+          <Route exact path='/' render={() => (
+            <SignIn msgAlert={this.msgAlert} setUser={this.setUser} />
+          )} />
           <Route path='/sign-up' render={() => (
             <SignUp msgAlert={this.msgAlert} setUser={this.setUser} />
           )} />
@@ -53,6 +59,18 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute exact user={user} path='/buckets' render={() => (
+            <BucketIndex msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute exact user={user} path='/buckets/edit/:id' render={() => (
+            <BucketEdit msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/bucket/create' render={() => (
+            <BucketCreate msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/buckets/public' render={() => (
+            <BucketPublic msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
       </Fragment>
