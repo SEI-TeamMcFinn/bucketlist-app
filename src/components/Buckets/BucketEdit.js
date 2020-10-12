@@ -109,7 +109,7 @@ class EditBucketItem extends Component {
 
             <Form onSubmit={this.handleSubmit}>
               <Form.Group controlId="title">
-                <Form.Label>Description</Form.Label>
+                <Form.Label>Title</Form.Label>
                 <Form.Control required type="text" name="title" value={title} placeholder="Title" onChange={this.handleChange} />
               </Form.Group>
 
